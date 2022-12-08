@@ -9,9 +9,10 @@
         <script src="https://cdn.tailwindcss.com"></script>
     </head>
     <body class="bg-slate-800">
-        <div class="container mx-auto flex justify-center h-[100vh] items-center">
-            <div id="loading-screen" class="text-7xl font-semibold text-slate-300">Loading...</div>
-            <table id="data-table" class="table-auto hidden border-collapse w-full transition-all my-14">
+        <div id="content-wrapper" class="container mx-auto flex justify-center h-[100vh] items-center flex-wrap">
+            <div id="loading-screen" class="text-7xl font-semibold text-[#f8f9fa] select-none animate-pulse"><i class="fa-solid fa-book"></i> Loading...</div>
+            <button role="button" class="create-button mt-14 mb-3 px-4 py-2 rounded font-medium transition-all hover:bg-emerald-700 bg-emerald-600"><i class="fa-solid fa-plus"></i></button>
+            <table id="data-table" class="table-auto hidden border-collapse w-full transition-all">
                 <thead class="hover:bg-slate-900/40 transition-all">
                     <tr>
                         <th class="p-4 border-b text-start border-slate-500 bg-slate-200/20 text-slate-200">Title</th>
@@ -19,8 +20,7 @@
                         <th class="p-4 border-b text-start border-slate-500 bg-slate-200/20 text-slate-200">Action</th>
                     </tr>
                 </thead>
-                <tbody>
-                </tbody>
+                <tbody></tbody>
             </table>
         </div>
         <script type="module" src="script.js"></script>
