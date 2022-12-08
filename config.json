@@ -1,0 +1,12 @@
+{
+    "config": {
+        "apiKey": "AIzaSyA13nbbY4w_czFwX-UdwfOxYEFze0S5pT8",
+        "authDomain": "komik-115.firebaseapp.com",
+        "projectId": "komik-115",
+        "storageBucket": "komik-115.appspot.com",
+        "messagingSenderId": "806010087773",
+        "appId": "1:806010087773:web:140d71123831e10b4ea0b4",
+        "measurementId": "G-G6DQF39NNF",
+        "databaseURL":"https://komik-115-default-rtdb.asia-southeast1.firebasedatabase.app/"
+    }
+}

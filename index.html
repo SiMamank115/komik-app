@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Komik</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <script src="https://cdn.tailwindcss.com"></script>
+    </head>
+    <body class="bg-slate-800">
+        <div class="container mx-auto flex justify-center h-[100vh] items-center">
+            <div id="loading-screen" class="text-7xl font-semibold text-slate-300">Loading...</div>
+            <table id="data-table" class="table-auto hidden border-collapse w-full transition-all my-14">
+                <thead class="hover:bg-slate-900/40 transition-all">
+                    <tr>
+                        <th class="p-4 border-b text-start border-slate-500 bg-slate-200/20 text-slate-200">Title</th>
+                        <th class="p-4 border-b text-start border-slate-500 bg-slate-200/20 text-slate-200">Chapter</th>
+                        <th class="p-4 border-b text-start border-slate-500 bg-slate-200/20 text-slate-200">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+        <script type="module" src="script.js"></script>
+    </body>
+</html>
