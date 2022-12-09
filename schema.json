@@ -1,0 +1,10 @@
+{
+    "list": {
+        "comic-0": {
+            "id": 0,
+            "chapter": 1,
+            "title": "REST TEST REST TEST REST TEST REST TEST REST TEST REST TEST REST TEST REST TEST",
+            "url": "https://www.google.com"
+        }
+    }
+}

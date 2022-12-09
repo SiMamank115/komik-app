@@ -14,7 +14,7 @@
 
             @layer components {
                 .input-slate {
-                    @apply bg-transparent rounded-sm m-6 transition-all focus:ring-2 !ring-offset-0 !ring-gray-400 !outline-0 text-gray-50 font-medium bg-gray-700 border focus:border-gray-400;
+                    @apply rounded-sm m-6 transition-all focus:ring-2 !ring-offset-0 !ring-gray-400 !outline-0 text-gray-50 font-medium bg-gray-700 border focus:border-gray-400;
                 }
                 .label-slate {
                     @apply font-bold text-gray-50;
@@ -22,7 +22,7 @@
                 .input-data {
                     @apply ml-0 mt-4 max-md:!w-[90%] flex flex-wrap justify-center h-fit;
                 }
-                .input-data>* {
+                .input-data > * {
                     @apply w-full;
                 }
                 .data-table-th {
@@ -44,31 +44,38 @@
         <div id="content-wrapper" class="container mx-auto flex justify-center h-[100vh] items-center flex-wrap">
             <div id="loading-screen" class="loading-container"><i class="fa-solid fa-book"></i> Loading...</div>
             <button role="button" class="create-button hidden mt-14 mb-3 px-4 py-2 rounded font-medium transition-all hover:bg-emerald-700 bg-emerald-600"><i class="fa-solid fa-plus"></i></button>
-            <div data-visible="true" class="form-control w-full h-[0px] data-[visible=true]:h-[80vh] data-[visible=true]:md:h-[50vh] mb-5 overflow-hidden transition-all duration-500 bg-gray-900">
-                <div class=" flex flex-wrap items-start justify-evenly">
-
+            <div data-visible="true" class="form-control w-full h-[0px] min-h-[300px] data-[visible=true]:h-[80vh] data-[visible=true]:md:h-[50vh] mb-5 overflow-hidden transition-all duration-500 bg-gray-900">
+                <form id="data-form" class="flex flex-wrap items-start justify-evenly">
                     <div class="input-data w-7/12">
                         <label for="title" class="label-slate">Title</label>
-                        <input type="text" name="title" id="title" class="input-slate !m-0" />
+                        <input required type="text" name="title" id="title" class="input-slate !m-0" />
                     </div>
                     <div class="input-data w-2/12 max-md:!w-[42.5%]">
                         <label for="chapter" class="label-slate">Chapter</label>
-                        <input type="number" name="chapter" id="chapter" class="input-slate !m-0" />
+                        <input required type="number" name="chapter" id="chapter" class="input-slate !m-0" />
                     </div>
                     <div class="input-data w-2/12 max-md:!w-[42.5%]">
                         <label for="type" class="label-slate">Type</label>
-                        <input type="text" name="type" id="type" class="input-slate !m-0" />
+                        <select required name="type" id="type" class="input-slate !m-0">
+                            <option value="manhwa" selected>Manhwa</option>
+                            <option value="manga">Manga</option>
+                            <option value="manhua">Manhua</option>
+                        </select>
                     </div>
                     <div class="input-data w-[96%]">
                         <label for="title" class="label-slate">Title</label>
-                        <textarea name="title" id="title" class="input-slate !m-0" /></textarea>
+                        <textarea required name="title" id="title" class="input-slate !m-0"></textarea>
                     </div>
-                </div>
+                    <div class="input-data w-full">
+                        <button id="form-submit" type="submit" class="font-semibold bg-gray-700 hover:bg-gray-600 transition-all border border-gray-500 w-fit px-6 py-3 rounded text-gray-100">Go !!!</button>
+                    </div>
+                </form>
             </div>
             <table id="data-table" class="table-auto hidden border-collapse w-full transition-all">
                 <thead class="hover:bg-slate-900/40 transition-all">
                     <tr>
                         <th class="data-table-th">Title</th>
+                        <th class="data-table-th">Type</th>
                         <th class="data-table-th">Chapter</th>
                         <th class="data-table-th">Action</th>
                     </tr>

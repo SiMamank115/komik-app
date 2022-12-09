@@ -67,10 +67,11 @@ function deleteData(id) {
 function printData(data = [{ chapter: 0, title: "", url: "" }]) {
     let tbody = ``,
         keys = Object.keys(data);
-    keys = keys.slice(dataStart,dataEnd);
+    keys = keys.slice(dataStart, dataEnd);
     keys.forEach((e, x) => {
         let tr = `<tr class="hover:bg-white/5 transition-all">
         <td class="list-title md:w-3/4 data-table-td"><a class="list-url break-word hover:text-slate-100 transition-all w-full" href="${data[e].url}" style="word-break: break-word">${data[e].title}</a></td>
+        <td class="list-type data-table-td">${data[e].type}</td>
         <td class="list-chapter data-table-td">${data[e].chapter}</td>
         <td class="data-table-td">
             <button id="edit-${data[e]._id}" role="button" class="action-button hover:bg-blue-700 bg-blue-600"><i class="fa-regular fa-pen-to-square"></i></button>
@@ -92,3 +93,8 @@ function getReq(name) {
     if ((name = new RegExp("[?&]" + encodeURIComponent(name) + "=([^&]*)").exec(location.search))) return decodeURIComponent(name[1]);
 }
 window.getReq = getReq;
+
+document.querySelector("#data-form").addEventListener("submit", (e) => {
+    console.log(1);
+    e.preventDefault();
+});
