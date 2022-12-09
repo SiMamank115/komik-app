@@ -6,18 +6,71 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Komik</title>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-        <script src="https://cdn.tailwindcss.com"></script>
+        <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
+        <style type="text/tailwindcss">
+            @tailwind base;
+            @tailwind components;
+            @tailwind utilities;
+
+            @layer components {
+                .input-slate {
+                    @apply bg-transparent rounded-sm m-6 transition-all focus:ring-2 !ring-offset-0 !ring-gray-400 !outline-0 text-gray-50 font-medium bg-gray-700 border focus:border-gray-400;
+                }
+                .label-slate {
+                    @apply font-bold text-gray-50;
+                }
+                .input-data {
+                    @apply ml-0 mt-4 max-md:!w-[90%] flex flex-wrap justify-center h-fit;
+                }
+                .input-data>* {
+                    @apply w-full;
+                }
+                .data-table-th {
+                    @apply p-4 border-b text-start border-slate-500 bg-slate-200/20 text-slate-200;
+                }
+                .data-table-td {
+                    @apply action-button px-4 py-2 my-1 rounded font-medium transition-all text-slate-300;
+                }
+                .action-button {
+                    @apply px-4 py-2 my-1 rounded font-medium transition-all;
+                }
+                .loading-container {
+                    @apply lg:text-7xl lg:font-bold md:text-4xl md:font-semibold text-3xl font-medium text-[#f8f9fa] select-none animate-pulse transition-all duration-300;
+                }
+            }
+        </style>
     </head>
     <body class="bg-slate-800">
         <div id="content-wrapper" class="container mx-auto flex justify-center h-[100vh] items-center flex-wrap">
-            <div id="loading-screen" class="text-7xl font-semibold text-[#f8f9fa] select-none animate-pulse"><i class="fa-solid fa-book"></i> Loading...</div>
-            <button role="button" class="create-button mt-14 mb-3 px-4 py-2 rounded font-medium transition-all hover:bg-emerald-700 bg-emerald-600"><i class="fa-solid fa-plus"></i></button>
+            <div id="loading-screen" class="loading-container"><i class="fa-solid fa-book"></i> Loading...</div>
+            <button role="button" class="create-button hidden mt-14 mb-3 px-4 py-2 rounded font-medium transition-all hover:bg-emerald-700 bg-emerald-600"><i class="fa-solid fa-plus"></i></button>
+            <div data-visible="true" class="form-control w-full h-[0px] data-[visible=true]:h-[80vh] data-[visible=true]:md:h-[50vh] mb-5 overflow-hidden transition-all duration-500 bg-gray-900">
+                <div class=" flex flex-wrap items-start justify-evenly">
+
+                    <div class="input-data w-7/12">
+                        <label for="title" class="label-slate">Title</label>
+                        <input type="text" name="title" id="title" class="input-slate !m-0" />
+                    </div>
+                    <div class="input-data w-2/12 max-md:!w-[42.5%]">
+                        <label for="chapter" class="label-slate">Chapter</label>
+                        <input type="number" name="chapter" id="chapter" class="input-slate !m-0" />
+                    </div>
+                    <div class="input-data w-2/12 max-md:!w-[42.5%]">
+                        <label for="type" class="label-slate">Type</label>
+                        <input type="text" name="type" id="type" class="input-slate !m-0" />
+                    </div>
+                    <div class="input-data w-[96%]">
+                        <label for="title" class="label-slate">Title</label>
+                        <textarea name="title" id="title" class="input-slate !m-0" /></textarea>
+                    </div>
+                </div>
+            </div>
             <table id="data-table" class="table-auto hidden border-collapse w-full transition-all">
                 <thead class="hover:bg-slate-900/40 transition-all">
                     <tr>
-                        <th class="p-4 border-b text-start border-slate-500 bg-slate-200/20 text-slate-200">Title</th>
-                        <th class="p-4 border-b text-start border-slate-500 bg-slate-200/20 text-slate-200">Chapter</th>
-                        <th class="p-4 border-b text-start border-slate-500 bg-slate-200/20 text-slate-200">Action</th>
+                        <th class="data-table-th">Title</th>
+                        <th class="data-table-th">Chapter</th>
+                        <th class="data-table-th">Action</th>
                     </tr>
                 </thead>
                 <tbody></tbody>

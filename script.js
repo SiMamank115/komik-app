@@ -1,10 +1,15 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.14.0/firebase-app.js";
-import { getDatabase, ref, child, get, set, onValue, update, remove, onChildChanged, query } from "https://www.gstatic.com/firebasejs/9.14.0/firebase-database.js";
+import { getDatabase, ref, set, onValue, update, remove, onChildChanged } from "https://www.gstatic.com/firebasejs/9.14.0/firebase-database.js";
 let db,
     app,
-    listLength,
-    datafetched = false;
+    datafetched = false,
+    dpp = 15,
+    dataStart = 0;
+if (getReq("pages") > 0) {
+    dataStart = (getReq("pages") - 1) * dpp;
+}
+let dataEnd = dataStart + dpp;
 fetch("./config.json")
     .then((e) => e.json())
     .then(async (e) => {
@@ -21,10 +26,8 @@ fetch("./config.json")
                     const childKey = childSnapshot.key;
                     const childData = childSnapshot.val();
                     if (childKey == "list") {
-                        listLength = childData.length;
                         printData(childData);
                     }
-                    console.log(childData);
                 });
             },
             {
@@ -64,13 +67,14 @@ function deleteData(id) {
 function printData(data = [{ chapter: 0, title: "", url: "" }]) {
     let tbody = ``,
         keys = Object.keys(data);
+    keys = keys.slice(dataStart,dataEnd);
     keys.forEach((e, x) => {
         let tr = `<tr class="hover:bg-white/5 transition-all">
-        <td class="list-title md:w-3/4 p-4 border-b border-slate-500 text-slate-300"><a class="list-url break-word hover:text-slate-100 transition-all w-full" href="${data[e].url}" style="word-break: break-word">${data[e].title}</a></td>
-        <td class="list-chapter p-4 border-b border-slate-500 text-slate-300">${data[e].chapter}</td>
-        <td class="p-4 border-b border-slate-500 text-slate-300">
-            <button id="edit-${x}" role="button" class="action-button px-4 py-2 my-1 rounded font-medium transition-all hover:bg-blue-700 bg-blue-600"><i class="fa-regular fa-pen-to-square"></i></button>
-            <button id="delete-${x}" role="button" class="action-button px-4 py-2 my-1 rounded font-medium transition-all hover:bg-red-700 bg-red-600"><i class="fa-regular fa-trash-can"></i></button>
+        <td class="list-title md:w-3/4 data-table-td"><a class="list-url break-word hover:text-slate-100 transition-all w-full" href="${data[e].url}" style="word-break: break-word">${data[e].title}</a></td>
+        <td class="list-chapter data-table-td">${data[e].chapter}</td>
+        <td class="data-table-td">
+            <button id="edit-${data[e]._id}" role="button" class="action-button hover:bg-blue-700 bg-blue-600"><i class="fa-regular fa-pen-to-square"></i></button>
+            <button id="delete-${data[e]._id}" role="button" class="action-button hover:bg-red-700 bg-red-600"><i class="fa-regular fa-trash-can"></i></button>
         </td>
     </tr>`;
         tbody += tr;
@@ -80,6 +84,8 @@ function printData(data = [{ chapter: 0, title: "", url: "" }]) {
         document.querySelector("#loading-screen").classList.add("hidden");
         document.querySelector("#content-wrapper").classList.remove("h-[100vh]");
         document.querySelector("#data-table").classList.remove("hidden");
+        document.querySelector(".create-button").classList.remove("hidden");
+        document.querySelector(".form-control").classList.remove("hidden");
     }
 }
 function getReq(name) {
