@@ -90,7 +90,7 @@ function printData(data = [{ chapter: 0, title: "", url: "" }]) {
             <button data-id ="${e}" id="delete" role="button" class="action-button hover:bg-red-700 bg-red-600"><i class="fa-regular fa-trash-can"></i></button>
         </td>
     </tr>`;
-        tbody += tr;
+        tbody += tr
     });
     document.querySelector("table#data-table>tbody").innerHTML = tbody;
     if (!datafetched) {
