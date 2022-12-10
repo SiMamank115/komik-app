@@ -183,5 +183,5 @@ document.querySelector("#data-form").addEventListener("submit", (e) => {
         updateData(e.target.dataset.target, title, type, chapter, url);
     }
     e.preventDefault();
-    return false
+    return false;
 });
