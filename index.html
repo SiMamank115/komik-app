@@ -37,24 +37,35 @@
                 .loading-container {
                     @apply lg:text-7xl lg:font-bold md:text-4xl md:font-semibold text-3xl font-medium text-[#f8f9fa] select-none animate-pulse transition-all duration-300;
                 }
+                .sorting-icon {
+                    font-family: "Font Awesome 6 Free";
+                    font-weight: 900;
+                    text-rendering: auto;
+                    font-style: normal;
+                    @apply before:content-['\f0dc'] group-[.desc]:before:content-['\f0dd'] group-[.asc]:before:content-['\f0de'];
+                }
             }
         </style>
     </head>
     <body class="bg-slate-800">
-        <div id="content-wrapper" class="container mx-auto flex justify-center h-[100vh] items-center flex-wrap">
+        <div id="content-wrapper" class="comics container mx-auto flex justify-center h-[100vh] items-center flex-wrap">
             <div id="loading-screen" class="loading-container"><i class="fa-solid fa-book"></i> Loading...</div>
-            <button role="button" class="create-button hidden mt-14 mb-3 px-4 py-2 rounded font-medium transition-all hover:bg-emerald-700 bg-emerald-600"><i class="fa-solid fa-plus"></i></button>
-            <div data-visible="true" class="form-control w-full h-[0px] min-h-[300px] data-[visible=true]:h-[80vh] data-[visible=true]:md:h-[50vh] mb-5 overflow-hidden transition-all duration-500 bg-gray-900">
-                <form id="data-form" class="flex flex-wrap items-start justify-evenly">
-                    <div class="input-data w-7/12">
+            <div class="control-button mt-14 hidden">
+                <button id="create" tabindex="1" role="button" class="create-button text-slate-300 mb-3 px-4 py-2 rounded font-medium transition-all hover:bg-emerald-700 bg-emerald-600"><i class="fa-solid fa-plus"></i></button>
+                <button id="close" tabindex="2" role="button" class="close-button text-slate-300 mb-3 px-4 py-2 rounded font-medium transition-all hover:bg-amber-700 bg-amber-600"><i class="fa-solid fa-chevron-up"></i></button>
+                <input type="text" tabindex="3" class="search focus:ring-2 !ring-offset-0 !border-0 !ring-slate-300 [&::placeholder]:text-slate-300 text-slate-300 mb-3 px-4 py-2 rounded font-medium transition-all bg-sky-600" placeholder="Search" />
+            </div>
+            <div data-visible="false" class="form-control w-full h-[0px] data-[visible=true]:h-[350px] data-[visible=true]:md:h-[300px] mb-5 overflow-hidden transition-all ease-in-out duration-500 bg-gray-900">
+                <form id="data-form" data-action="create" action="javascript:void(0)" class="flex flex-wrap items-start justify-evenly">
+                    <div id="input-title" class="input-data w-7/12">
                         <label for="title" class="label-slate">Title</label>
                         <input required type="text" name="title" id="title" class="input-slate !m-0" />
                     </div>
-                    <div class="input-data w-2/12 max-md:!w-[42.5%]">
+                    <div id="input-chapter" class="input-data w-2/12 max-md:!w-[42.5%]">
                         <label for="chapter" class="label-slate">Chapter</label>
                         <input required type="number" name="chapter" id="chapter" class="input-slate !m-0" />
                     </div>
-                    <div class="input-data w-2/12 max-md:!w-[42.5%]">
+                    <div id="input-type" class="input-data w-2/12 max-md:!w-[42.5%]">
                         <label for="type" class="label-slate">Type</label>
                         <select required name="type" id="type" class="input-slate !m-0">
                             <option value="manhwa" selected>Manhwa</option>
@@ -62,27 +73,34 @@
                             <option value="manhua">Manhua</option>
                         </select>
                     </div>
-                    <div class="input-data w-[96%]">
-                        <label for="title" class="label-slate">Title</label>
-                        <textarea required name="title" id="title" class="input-slate !m-0"></textarea>
+                    <div id="input-url" class="input-data w-[96%]">
+                        <label for="url" class="label-slate">Url</label>
+                        <input type="text" required name="url" id="url" class="input-slate !m-0" />
                     </div>
-                    <div class="input-data w-full">
+                    <div id="input-submit" class="input-data w-full">
                         <button id="form-submit" type="submit" class="font-semibold bg-gray-700 hover:bg-gray-600 transition-all border border-gray-500 w-fit px-6 py-3 rounded text-gray-100">Go !!!</button>
                     </div>
                 </form>
             </div>
-            <table id="data-table" class="table-auto hidden border-collapse w-full transition-all">
+            <table id="data-table" class="comics table-auto hidden border-collapse w-full transition-all">
                 <thead class="hover:bg-slate-900/40 transition-all">
                     <tr>
-                        <th class="data-table-th">Title</th>
-                        <th class="data-table-th">Type</th>
-                        <th class="data-table-th">Chapter</th>
+                        <th class="data-table-th">
+                            Title <button class="sort group px-1" data-sort="list-title"><i class="sorting-icon"></i></button>
+                        </th>
+                        <th class="data-table-th">
+                            Type <button class="sort group px-1" data-sort="list-type"><i class="sorting-icon"></i></button>
+                        </th>
+                        <th class="data-table-th">
+                            Chapter <button class="sort group px-1" data-sort="list-chapter"><i class="sorting-icon"></i></button>
+                        </th>
                         <th class="data-table-th">Action</th>
                     </tr>
                 </thead>
-                <tbody></tbody>
+                <tbody class="list"></tbody>
             </table>
         </div>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/list.js/2.3.1/list.min.js"></script>
         <script type="module" src="script.js"></script>
     </body>
 </html>
