@@ -5,6 +5,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Komik</title>
+        <link rel="shortcut icon" href="/playback.ico" type="image/x-icon">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
         <style type="text/tailwindcss">
@@ -29,7 +30,7 @@
                     @apply p-4 border-b text-start border-slate-500 bg-slate-200/20 text-slate-200;
                 }
                 .data-table-td {
-                    @apply action-button px-4 py-2 my-1 rounded font-medium transition-all text-slate-300;
+                    @apply action-button px-4 py-2 my-1 rounded-none font-medium transition-all text-slate-300;
                 }
                 .action-button {
                     @apply px-4 py-2 my-1 rounded font-medium transition-all;
@@ -44,16 +45,38 @@
                     font-style: normal;
                     @apply before:content-['\f0dc'] group-[.desc]:before:content-['\f0dd'] group-[.asc]:before:content-['\f0de'];
                 }
+                .pagination {
+                    @apply inline-flex -space-x-px mb-3;
+                }
+                .pagination > li {
+                    @apply flex;
+                }
+                .pagination > li > a {
+                    @apply text-slate-800 px-4 py-2 leading-tight font-medium transition-all hover:!bg-[#adb5bd];
+                }
+                .pagination > li:nth-child(even) > a {
+                    @apply bg-[#ced4da];
+                }
+                .pagination > li:nth-child(odd) > a {
+                    @apply bg-[#f8f9fa];
+                }
+                .pagination > li:first-child > a {
+                    @apply rounded-l;
+                }
+                .pagination > li:last-child > a {
+                    @apply rounded-r;
+                }
             }
         </style>
     </head>
     <body class="bg-slate-800">
         <div id="content-wrapper" class="comics container mx-auto flex justify-center h-[100vh] items-center flex-wrap">
             <div id="loading-screen" class="loading-container"><i class="fa-solid fa-book"></i> Loading...</div>
-            <div class="control-button mt-14 hidden">
-                <button id="create" tabindex="1" role="button" class="create-button text-slate-300 mb-3 px-4 py-2 rounded font-medium transition-all hover:bg-emerald-700 bg-emerald-600"><i class="fa-solid fa-plus"></i></button>
+            <div class="control-button mt-14 hidden justify-center flex-wrap space-x-4">
+                <input type="search" tabindex="1" autofocus class="search focus:ring-2 !ring-offset-0 !border-0 !ring-slate-300 [&::placeholder]:text-slate-300 text-slate-300 mb-3 px-4 py-2 rounded font-medium transition-all bg-sky-600" placeholder="Search" />
                 <button id="close" tabindex="2" role="button" class="close-button text-slate-300 mb-3 px-4 py-2 rounded font-medium transition-all hover:bg-amber-700 bg-amber-600"><i class="fa-solid fa-chevron-up"></i></button>
-                <input type="text" tabindex="3" class="search focus:ring-2 !ring-offset-0 !border-0 !ring-slate-300 [&::placeholder]:text-slate-300 text-slate-300 mb-3 px-4 py-2 rounded font-medium transition-all bg-sky-600" placeholder="Search" />
+                <button id="create" tabindex="3" role="button" class="create-button text-slate-300 mb-3 px-4 py-2 rounded font-medium transition-all hover:bg-emerald-700 bg-emerald-600"><i class="fa-solid fa-plus"></i></button>
+                <ul class="pagination"></ul>
             </div>
             <div data-visible="false" class="form-control w-full h-[0px] data-[visible=true]:h-[350px] data-[visible=true]:md:h-[300px] mb-5 overflow-hidden transition-all ease-in-out duration-500 bg-gray-900">
                 <form id="data-form" data-action="create" action="javascript:void(0)" class="flex flex-wrap items-start justify-evenly">
@@ -82,19 +105,19 @@
                     </div>
                 </form>
             </div>
-            <table id="data-table" class="comics table-auto hidden border-collapse w-full transition-all">
+            <table id="data-table" class="comics table-static hidden border-collapse w-full transition-all">
                 <thead class="hover:bg-slate-900/40 transition-all">
                     <tr>
-                        <th class="data-table-th">
-                            Title <button class="sort group px-1" data-sort="list-title"><i class="sorting-icon"></i></button>
+                        <th class="data-table-th w-[73%]">
+                            Title <button class="sort group px-1" data-sort="list-url"><i class="sorting-icon"></i></button>
                         </th>
-                        <th class="data-table-th">
+                        <th class="data-table-th w-[8%]">
                             Type <button class="sort group px-1" data-sort="list-type"><i class="sorting-icon"></i></button>
                         </th>
-                        <th class="data-table-th">
-                            Chapter <button class="sort group px-1" data-sort="list-chapter"><i class="sorting-icon"></i></button>
+                        <th class="data-table-th w-[6%]">
+                            Ch <button class="sort group px-1" data-sort="list-chapter"><i class="sorting-icon"></i></button>
                         </th>
-                        <th class="data-table-th">Action</th>
+                        <th class="data-table-th w-[10%]">Action</th>
                     </tr>
                 </thead>
                 <tbody class="list"></tbody>
