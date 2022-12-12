@@ -4,19 +4,13 @@ import { getDatabase, ref, set, onValue, update, remove, onChildChanged } from "
 
 // Variables
 let db, // firebase
-    app, // firebase
     datafetched = false, // loading screen
-    dpp = 15, // pagination (data/page)
-    dataStart = 0, // pagination
-    dataEnd, // pagination
-    page = 1, // pagination
     onToggleForm = false, // form animation
     datas, // comics
     comicsList; // comics
 document.addEventListener(
     "DOMContentLoaded",
     function () {
-        updatePage();
         document.querySelector("#data-form").addEventListener("submit", (e) => {
             let title = document.querySelector("#input-title>input").value;
             let chapter = document.querySelector("#input-chapter>input").value;
@@ -33,8 +27,7 @@ document.addEventListener(
         });
         fetch("./config.json")
             .then((e) => e.json())
-            .then(async (e) => {
-                app = initializeApp(e.config);
+            .then(async (e) => {initializeApp(e.config);
                 db = getDatabase();
                 const dbRef = ref(db);
                 onChildChanged(dbRef, (data) => {
@@ -51,8 +44,8 @@ document.addEventListener(
                                 datas = childData;
                                 printData(childData);
                                 comicsList = new List(document.querySelector(".comics"), {
-                                    page:15,
-                                    pagination:true,
+                                    page: 15,
+                                    pagination: true,
                                     valueNames: ["list-url", "list-type", "list-chapter"],
                                 });
                                 window.comic = comicsList;
@@ -78,15 +71,6 @@ function getReq(name) {
 }
 function uuid(start = "id") {
     return start + "-" + Math.random().toString(16).slice(2);
-}
-function updatePage() {
-    dataStart = (page - 1) * dpp;
-    dataEnd = dataStart + dpp;
-    Array.from(document.querySelector(".list").children).forEach((e,x) => {
-        if(x < dataStart || x > dataEnd) {
-            e.remove()
-        }
-    })
 }
 // Firebase CRUD Functions
 function writeData(id, title, type, chapter, url) {
@@ -136,10 +120,10 @@ function printData(data = [{ chapter: 0, title: "", url: "" }]) {
             deleteData(e.currentTarget.dataset.id);
         });
     });
-    document.querySelector("button#create").onclick =  (e) => {
+    document.querySelector("button#create").onclick = (e) => {
         createForm();
     };
-    document.querySelector("button#close").onclick =  (e) => {
+    document.querySelector("button#close").onclick = (e) => {
         toggleForm("close");
     };
     document.querySelectorAll("button#edit").forEach((e) => {
