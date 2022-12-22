@@ -1,13 +1,16 @@
 // Firebase SDK
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.14.0/firebase-app.js";
 import { getDatabase, ref, set, onValue, update, remove, onChildChanged } from "https://www.gstatic.com/firebasejs/9.14.0/firebase-database.js";
-
+import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.14.0/firebase-auth.js";
 // Variables
 let db, // firebase
     datafetched = false, // loading screen
     onToggleForm = false, // form animation
     datas, // comics
-    comicsList; // comics
+    comicsList,
+    dpp = 10,
+    auth; // comics
+
 document.addEventListener(
     "DOMContentLoaded",
     function () {
@@ -21,21 +24,41 @@ document.addEventListener(
             } else if (e.target.dataset.action == "edit") {
                 updateData(e.target.dataset.target, title, type, chapter, url);
             }
+            comic.search(document.querySelector(".search").value);
             toggleForm("close");
             e.preventDefault();
             return false;
         });
         fetch("./config.json")
             .then((e) => e.json())
-            .then(async (e) => {initializeApp(e.config);
+            .then(async (e) => {
+                if (e.page) dpp = e.page;
+                await initializeApp(e.config);
+
+                auth = getAuth();
+
+                await new Promise((resolve) => {
+                    let email = document.querySelector("#login-email>input");
+                    let password = document.querySelector("#login-password>input");
+                    document.querySelector("#login-form").addEventListener("submit", async (e) => {
+                        document.querySelector("#login-form>#login-submit>button").innerHTML = `<i class="fa-solid fa-circle-notch animate-spin"></i>`;
+                        document.querySelector("#login-form>#login-submit>button").setAttribute("disabled", true);
+                        await signInWithEmailAndPassword(auth, email.value, password.value)
+                            .then(() => resolve(true))
+                            .catch(() => {
+                                document.querySelector("#loading-screen > div").innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> Try Again';
+                                document.querySelector("#login-form>#login-submit>button").innerHTML = `Login`;
+                                document.querySelector("#login-form>#login-submit>button").removeAttribute("disabled");
+                            });
+                    });
+                });
                 db = getDatabase();
-                const dbRef = ref(db);
-                onChildChanged(dbRef, (data) => {
+                onChildChanged(ref(db), (data) => {
                     datas = data.val();
                     printData(data.val());
                 });
                 onValue(
-                    dbRef,
+                    ref(db),
                     (snapshot) => {
                         snapshot.forEach((childSnapshot) => {
                             const childKey = childSnapshot.key;
@@ -44,7 +67,7 @@ document.addEventListener(
                                 datas = childData;
                                 printData(childData);
                                 comicsList = new List(document.querySelector(".comics"), {
-                                    page: 15,
+                                    page: dpp,
                                     pagination: true,
                                     valueNames: ["list-url", "list-type", "list-chapter"],
                                 });
@@ -94,15 +117,7 @@ function printData(data = [{ chapter: 0, title: "", url: "" }]) {
     let tbody = ``,
         keys = Object.keys(data);
     keys.forEach((e, x) => {
-        let tr = `<tr class="hover:bg-white/5 transition-all md:border-0 border-b-2 border-slate-500">
-        <td class="list-title data-table-td"><a class="list-url break-word hover:text-slate-100 transition-all w-full" target="_blank" href="${data[e].url}" style="word-break: break-word">${data[e].title}</a></td>
-        <td class="list-type data-table-td">${data[e].type}</td>
-        <td class="list-chapter data-table-td">${data[e].chapter}</td>
-        <td class="data-table-td">
-            <button data-id ="${e}" id="edit" role="button" class="action-button hover:bg-blue-700 bg-blue-600 text-xs"><i class=" w-[12px] h-[12px] fa-regular fa-pen-to-square"></i></button>
-            <button data-id ="${e}" id="delete" role="button" class="action-button hover:bg-red-700 bg-red-600 text-xs"><i class=" w-[12px] h-[12px] fa-regular fa-trash-can"></i></button>
-        </td>
-    </tr>`;
+        let tr = `<tr class="hover:bg-white/5 transition-all md:border-0 border-b-2 border-slate-500"><td class="list-title data-table-td"><a class="list-url break-word hover:text-slate-100 transition-all w-full" target="_blank" href="${data[e].url}" style="word-break: break-word">${data[e].title}</a></td><td class="list-type data-table-td">${data[e].type}</td><td class="list-chapter data-table-td">${data[e].chapter}</td><td class="data-table-td"><button data-id ="${e}" id="edit" role="button" class="action-button hover:bg-blue-700 bg-blue-600 text-xs"><i class=" w-[12px] h-[12px] fa-regular fa-pen-to-square"></i></button><button data-id ="${e}" id="delete" role="button" class="action-button hover:bg-red-700 bg-red-600 text-xs"><i class=" w-[12px] h-[12px] fa-regular fa-trash-can"></i></button></td></tr>`;
         tbody += tr;
     });
     document.querySelector("table#data-table>tbody").innerHTML = tbody;
@@ -118,6 +133,7 @@ function printData(data = [{ chapter: 0, title: "", url: "" }]) {
     document.querySelectorAll("button#delete").forEach((e) => {
         e.addEventListener("dblclick", (e) => {
             deleteData(e.currentTarget.dataset.id);
+            comic.search(document.querySelector(".search").value);
         });
     });
     document.querySelector("button#create").onclick = (e) => {
