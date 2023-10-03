@@ -7,70 +7,8 @@
         <title>Komik</title>
         <link rel="shortcut icon" href="./favicon.svg" type="image/x-icon" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-        <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
-        <style type="text/tailwindcss">
-            @tailwind base;
-            @tailwind components;
-            @tailwind utilities;
-
-            @layer components {
-                .input-slate {
-                    @apply rounded-sm m-6 transition-all focus:ring-2 !ring-offset-0 !ring-gray-400 !outline-0 text-gray-50 font-medium bg-gray-700 border focus:border-gray-400;
-                }
-                .label-slate {
-                    @apply font-bold text-gray-50;
-                }
-                .input-data {
-                    @apply ml-0 mt-4 max-md:!w-[90%] flex flex-wrap justify-center h-fit;
-                }
-                .input-data > * {
-                    @apply w-full;
-                }
-                .data-table-th {
-                    @apply p-4 border-b text-start border-slate-500 bg-slate-200/20 text-slate-200;
-                }
-                .data-table-td {
-                    @apply action-button px-4 py-2 my-1 rounded-none font-medium transition-all text-slate-300;
-                }
-                .action-button {
-                    @apply px-4 py-2 my-1 rounded font-medium transition-all;
-                }
-                .loading-container {
-                    @apply lg:text-7xl lg:font-bold md:text-4xl md:font-semibold text-3xl font-medium text-[#f8f9fa] select-none transition-all duration-300;
-                }
-                .loading-container > div:first-child {
-                    @apply animate-pulse text-center mb-6;
-                }
-                .sorting-icon {
-                    font-family: "Font Awesome 6 Free";
-                    font-weight: 900;
-                    text-rendering: auto;
-                    font-style: normal;
-                    @apply before:content-['\f0dc'] group-[.desc]:before:content-['\f0dd'] group-[.asc]:before:content-['\f0de'];
-                }
-                .pagination {
-                    @apply inline-flex -space-x-px mb-3;
-                }
-                .pagination > li {
-                    @apply flex;
-                }
-                .pagination > li > a {
-                    @apply text-slate-800 px-4 py-2 leading-tight font-medium transition-all hover:!bg-[#adb5bd];
-                }
-                .pagination > li:nth-child(even) > a {
-                    @apply bg-[#ced4da];
-                }
-                .pagination > li:nth-child(odd) > a {
-                    @apply bg-[#f8f9fa];
-                }
-                .pagination > li:first-child > a {
-                    @apply rounded-l;
-                }
-                .pagination > li:last-child > a {
-                    @apply rounded-r;
-                }
-            }
-        </style>
+        <!-- <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script> -->
+        <link rel="stylesheet" href="./style.css">
     </head>
     <body class="bg-slate-800">
         <div id="content-wrapper" class="comics container mx-auto flex justify-center h-[100vh] items-center flex-wrap">
